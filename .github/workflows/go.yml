@@ -1,0 +1,45 @@
+name: Go
+on: [push]
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Set up Go 1.12
+      uses: actions/setup-go@v1
+      with:
+        go-version: 1.12
+      id: go
+
+    - name: Check out code into the Go module directory
+      uses: actions/checkout@v1
+
+    - name: Get dependencies
+    
+      run: |
+        export GITHUB_TOKEN=e361df4d2da7917a158ce211757465e7a73dadce 
+        git config --global url."https://$GITHUB_TOKEN:x-oauth-basic@github.com/".insteadOf "https://github.com/" 
+        go get -v -t -d ./...
+        go get -u golang.org/x/lint/golint
+        
+        if [ -f Gopkg.toml ]; then
+            curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+            dep ensure
+        fi
+
+    - name: Build
+      run: go build -v ./...
+    
+    - name: Test
+      run: go test ./...
+      
+    - name: Test Race
+      run: go test -race ./...   
+    
+    - name: Go vet
+      run: go vet ./...
+      
+    - name: Go Lint
+      run: golint ./...
