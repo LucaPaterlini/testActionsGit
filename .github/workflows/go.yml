@@ -19,8 +19,7 @@ jobs:
     - name: Get dependencies
     
       run: |
-        export GITHUB_TOKEN=e361df4d2da7917a158ce211757465e7a73dadce 
-        git config --global url."https://$GITHUB_TOKEN:x-oauth-basic@github.com/".insteadOf "https://github.com/" 
+        git config --global url."https://$ACCESSTOKEN:x-oauth-basic@github.com/".insteadOf "https://github.com/" 
         go get -v -t -d ./...
         go get -u golang.org/x/lint/golint
         
