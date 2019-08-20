@@ -19,7 +19,7 @@ jobs:
     - name: Get dependencies
     
       run: |
-        git config --global url."https://{{ ACCESSTOKEN }}@github.com/".insteadOf "https://github.com/" 
+        git config --global url."https://${ACCESSTOKEN}@github.com/".insteadOf "https://github.com/" 
         go get -v -t -d ./...
         go get -u golang.org/x/lint/golint
         
