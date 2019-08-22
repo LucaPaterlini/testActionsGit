@@ -21,6 +21,7 @@ jobs:
         git config --global url."https://${ACCESSTOKEN}@github.com/".insteadOf "https://github.com/" 
         go get -v -t -d ./...
         go get -u golang.org/x/lint/golint
+        export PATH=~/go/bin:$PATH
         if [ -f Gopkg.toml ]; then
             curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
             dep ensure
@@ -44,3 +45,4 @@ jobs:
       
     - name: Go Lint
       run: golint ./...
+    
