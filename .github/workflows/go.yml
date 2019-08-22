@@ -28,9 +28,7 @@ jobs:
         fi
       env:
           ACCESSTOKEN: ${{ secrets.ACCESSTOKEN }} 
-    - name: find golint
-      run: cd /; find . -name golint 
-
+          
     - name: Build
       run: go build -v ./...
     
