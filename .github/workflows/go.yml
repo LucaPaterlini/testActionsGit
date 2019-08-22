@@ -21,13 +21,14 @@ jobs:
         git config --global url."https://${ACCESSTOKEN}@github.com/".insteadOf "https://github.com/" 
         go get -v -t -d ./...
         go get -u golang.org/x/lint/golint
-        
         if [ -f Gopkg.toml ]; then
             curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
             dep ensure
         fi
       env:
-          ACCESSTOKEN: ${{ secrets.ACCESSTOKEN }}  
+          ACCESSTOKEN: ${{ secrets.ACCESSTOKEN }} 
+    - name: find golint
+      run: cd /; find . -name golint 
 
     - name: Build
       run: go build -v ./...
