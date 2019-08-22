@@ -17,6 +17,8 @@ jobs:
       uses: actions/checkout@v1
 
     - name: Get dependencies
+        env:
+          ACCESSTOKEN: ${{ secrets.ACCESSTOKEN }}
     
       run: |
         git config --global url."https://${ACCESSTOKEN}@github.com/".insteadOf "https://github.com/" 
