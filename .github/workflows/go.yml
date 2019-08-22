@@ -16,10 +16,7 @@ jobs:
     - name: Check out code into the Go module directory
       uses: actions/checkout@v1
 
-    - name: Get dependencies
-        env:
-          ACCESSTOKEN: ${{ secrets.ACCESSTOKEN }}
-    
+    - name: Get dependencies    
       run: |
         git config --global url."https://${ACCESSTOKEN}@github.com/".insteadOf "https://github.com/" 
         go get -v -t -d ./...
@@ -29,6 +26,8 @@ jobs:
             curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
             dep ensure
         fi
+      env:
+          ACCESSTOKEN: ${{ secrets.ACCESSTOKEN }}  
 
     - name: Build
       run: go build -v ./...
