@@ -21,17 +21,28 @@ jobs:
         git config --global url."https://${ACCESSTOKEN}@github.com/".insteadOf "https://github.com/" 
         go get -v -t -d ./...
         go get -u golang.org/x/lint/golint
-        export PATH=~/go/bin:$PATH
+        go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
+        go get github.com/fzipp/gocyclo
+        go get github.com/gordonklaus/ineffassign
         if [ -f Gopkg.toml ]; then
             curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
             dep ensure
         fi
       env:
           ACCESSTOKEN: ${{ secrets.ACCESSTOKEN }} 
+    - name: Ineff Assign
+    - run : |
+        export PATH=~/go/bin:$PATH
+        ineffassign ./...   
+    - name: Go Lint
+      run: |
+        export PATH=~/go/bin:$PATH
+        golint ./...   
+    - name: Golangci Lint
+      run: |
+        export PATH=~/go/bin:$PATH
+        golangci-lint ./...       
           
-    - name: Build
-      run: go build -v ./...
-    
     - name: Test
       run: go test ./...
       
@@ -41,6 +52,13 @@ jobs:
     - name: Go vet
       run: go vet ./...
       
-    - name: Go Lint
-      run: golint ./...
-    
+    - name: Go Cyclo   
+      run: |
+        export PATH=~/go/bin:$PATH
+        gocyclo . -over 15
+      
+    - name: Test Bench
+      run: go test -bench ./...     
+      
+    - name: Build
+      run: go build -v ./...
