@@ -56,7 +56,7 @@ jobs:
     - name: Go Cyclo   
       run: |
         export PATH=~/go/bin:$PATH
-        gocyclo . -over 15
+        gocyclo -over 15 . 
       
     - name: Test Bench
       run: go test -bench ./...     
