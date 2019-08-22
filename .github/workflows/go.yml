@@ -30,8 +30,9 @@ jobs:
         fi
       env:
           ACCESSTOKEN: ${{ secrets.ACCESSTOKEN }} 
+          
     - name: Ineff Assign
-    - run : |
+      run : |
         export PATH=~/go/bin:$PATH
         ineffassign ./...   
     - name: Go Lint
